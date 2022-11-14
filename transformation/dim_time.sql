@@ -15,6 +15,7 @@ CREATE TABLE dim_time (
 	[_year] int
 );
 
+-- Add constraint
 ALTER TABLE dim_time add CONSTRAINT PK_dim_time_time_id PRIMARY KEY NONCLUSTERED (time_id) NOT ENFORCED;
 
 DECLARE @StartDate DATETIME

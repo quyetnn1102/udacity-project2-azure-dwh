@@ -6,14 +6,14 @@ BEGIN
 END
 
 
-CREATE TABLE fact_payment (
+CREATE TABLE dbo.fact_payment (
 	[payment_id] [bigint]  NULL,
 	[amount] [float]  NULL,
 	[rider_id] [bigint]  NULL,
 	[time_id] [uniqueidentifier]  NULL
 );
 
-INSERT INTO fact_payment (
+INSERT INTO dbo.fact_payment (
 	[payment_id],
 	[amount],
 	[rider_id] ,
@@ -23,7 +23,8 @@ SELECT
     [staging_payments].[amount],
     [staging_payments].[rider_id],
     [dim_time].[time_id]
-FROM [dbo].[staging_payments]
+FROM 
+	[dbo].[staging_payments]
 JOIN dim_time ON dim_time._date = staging_payments._date;
 
 SELECT TOP 10 * FROM [dbo].[fact_payment];

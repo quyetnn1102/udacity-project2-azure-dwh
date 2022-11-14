@@ -16,7 +16,8 @@ CREATE TABLE dbo.fact_trip (
     [rider_age] VARCHAR(75)
 );
 
-ALTER TABLE dbo.fact_trip add CONSTRAINT PK_fact_trip_trip_id PRIMARY KEY NONCLUSTERED (trip_id) NOT ENFORCED;
+-- Add constraint
+ALTER TABLE dbo.fact_trip ADD CONSTRAINT PK_fact_trip_trip_id PRIMARY KEY NONCLUSTERED (trip_id) NOT ENFORCED;
 
 
 INSERT INTO dbo.fact_trip (
