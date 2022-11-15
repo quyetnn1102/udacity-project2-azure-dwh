@@ -4,26 +4,19 @@ BEGIN
     DROP TABLE dbo.dim_station;
 END
 
-CREATE TABLE dbo.dim_station (
-	[station_id] [nvarchar](4000)  NULL,
-	[name] [nvarchar](4000)  NULL,
-	[latitude] [float]  NULL,
-	[longitude] [float]  NULL
-);
-
-INSERT INTO dbo.dim_station 
-(
-	[station_id],
-	[name],
-	[latitude],
-	[longitude]
+CREATE TABLE dbo.dim_station 
+WITH
+( 
+	DISTRIBUTION = REPLICATE, 
+	CLUSTERED COLUMNSTORE INDEX
 )
+AS
 SELECT 
 	[station_id],
 	[name],
 	[latitude],
 	[longitude]
 FROM 
-	staging_stations;
+	staging_station;
 
 SELECT TOP 10 * FROM dbo.dim_station;

@@ -6,26 +6,26 @@ END
 
 CREATE TABLE dim_time (
 	[time_id] [uniqueidentifier] NOT NULL,
-	[_date] [varchar](50)  NULL,
-    [dayofweek] int,
-    [dayofmonth] int,
-    [weekofyear] int,
-	[_quarter] int,
-	[_month] int,
-	[_year] int
+	[date] [varchar](50)  NULL,
+    [day_of_week] int,
+    [day_of_month] int,
+    [week_of_year] int,
+	[quarter] int,
+	[month] int,
+	[year] int
 );
 
 -- Add constraint
-ALTER TABLE dim_time add CONSTRAINT PK_dim_time_time_id PRIMARY KEY NONCLUSTERED (time_id) NOT ENFORCED;
+ALTER TABLE dbo.dim_time add CONSTRAINT PK_dim_time_time_id PRIMARY KEY NONCLUSTERED (time_id) NOT ENFORCED;
 
 DECLARE @StartDate DATETIME
 DECLARE @EndDate DATETIME
-SET @StartDate = (SELECT MIN(TRY_CONVERT(datetime, left(start_at, 19))) FROM staging_trips)
-SET @EndDate = DATEADD(year, 5, (SELECT MAX(TRY_CONVERT(datetime, left(start_at, 19))) FROM staging_trips))
+SET @StartDate = (SELECT MIN(TRY_CONVERT(datetime, left(start_at, 19))) FROM staging_trip)
+SET @EndDate = DATEADD(year, 5, (SELECT MAX(TRY_CONVERT(datetime, left(start_at, 19))) FROM staging_trip))
 
 WHILE @StartDate <= @EndDate
     BEGIN
-        INSERT INTO [dim_time]
+        INSERT INTO dbo.[dim_time]
         SELECT
             NEWID(),
             @StartDate,

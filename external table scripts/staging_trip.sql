@@ -1,21 +1,21 @@
--- Create synpase delimieter if not exist
 IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseDelimitedTextFormat') 
 	CREATE EXTERNAL FILE FORMAT [SynapseDelimitedTextFormat] 
 	WITH ( FORMAT_TYPE = DELIMITEDTEXT ,
 	       FORMAT_OPTIONS (
 			 FIELD_TERMINATOR = ',',
+			 STRING_DELIMITER = '"',
 			 USE_TYPE_DEFAULT = FALSE
-			));
+			))
+GO
 
--- Create synpase external data source 
-IF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'data_project2_adls_dfs_core_windows_net') 
-	CREATE EXTERNAL DATA SOURCE [data_project2_adls_dfs_core_windows_net] 
+IF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'data_udacitybikeshareadls_dfs_core_windows_net') 
+	CREATE EXTERNAL DATA SOURCE [data_udacitybikeshareadls_dfs_core_windows_net] 
 	WITH (
-		LOCATION = 'abfss://data@project2_adls.dfs.core.windows.net', 
+		LOCATION = 'abfss://data@udacitybikeshareadls.dfs.core.windows.net', 
 		TYPE = HADOOP 
-	);
+	)
+GO
 
--- Create trip table
 CREATE EXTERNAL TABLE staging_trip (
 	[trip_id] nvarchar(4000),
 	[rideable_type] nvarchar(4000),
@@ -27,9 +27,11 @@ CREATE EXTERNAL TABLE staging_trip (
 	)
 	WITH (
 	LOCATION = 'publictrip.csv',
-	DATA_SOURCE = [data_project2_adls_dfs_core_windows_net],
+	DATA_SOURCE = [data_udacitybikeshareadls_dfs_core_windows_net],
 	FILE_FORMAT = [SynapseDelimitedTextFormat]
-	);
+	)
+GO
 
--- Verify result
-SELECT TOP 10 * FROM dbo.staging_trip;
+
+SELECT TOP 100 * FROM dbo.staging_trip
+GO
